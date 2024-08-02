@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uidesign/whatsapp/states.dart';
@@ -12,44 +11,81 @@ class Whatsapp extends StatefulWidget {
   State<Whatsapp> createState() => _WhatsappState();
 }
 
-class _WhatsappState extends State<Whatsapp> with SingleTickerProviderStateMixin {
+class _WhatsappState extends State<Whatsapp>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 3, vsync: this,initialIndex: 0);
+    _tabController = new TabController(length: 3, vsync: this, initialIndex: 0)
+      ..addListener(() {
+        setState(() {});
+      });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.green,
-          leading: Text("App"),
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            controller: _tabController,
-            tabs: [
-              Tab(text:"chats",),
-              Tab(text:"chats",),
-              Tab(text:"chats",)
-
+        appBar: AppBar(
+            backgroundColor: Colors.green.shade700,
+           title: Text('ChatApp',
+           style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+            actions: [
+              Icon(CupertinoIcons.search,color: Colors.white,),
+              SizedBox(width: 10,),
+              Icon(Icons.more_vert_outlined,color: Colors.white,),
             ],
-          )
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          Chat(),
-          Call(),
-          Update()
-
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: () {},
-        backgroundColor: Colors.green,
-        child: Icon(Icons.message_outlined,color: CupertinoColors.white,),),
-    );
+            bottom: TabBar(
+              labelColor: Colors.white,
+             // unselectedLabelColor: Colors.white,
+              indicatorColor: Colors.white,
+              controller: _tabController,
+              tabs: [
+                Tab(
+                  text: "chats",
+                ),
+                Tab(
+                  text: "Status",
+                ),
+                Tab(
+                  text: "Calls",
+                )
+              ],
+            )),
+        body: TabBarView(
+          controller: _tabController,
+          children: [Chat(), Call(), Update()],
+        ),
+        floatingActionButton: _tabController.index == 0
+            ? FloatingActionButton(
+          backgroundColor: Colors.green,
+                onPressed: () {},
+                child: Icon(Icons.message,color: Colors.white,),
+              )
+            : _tabController.index == 1
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(height: 45,width: 45,
+                        child: FloatingActionButton(
+                          onPressed: () {},
+                          child: Icon(Icons.edit),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {},
+                        child: Icon(CupertinoIcons.camera),
+                      )
+                    ],
+                  )
+                : FloatingActionButton(
+                    onPressed: () {},
+                    child: Icon(Icons.add_call),
+                  ));
   }
 
   Widget _appBar(BuildContext context, double height) {
@@ -71,9 +107,22 @@ class _WhatsappState extends State<Whatsapp> with SingleTickerProviderStateMixin
                 ),
               ),
               Spacer(),
-              Icon(Icons.qr_code_scanner_outlined,size: 40,),
-              IconButton(onPressed: (){}, icon: Icon(CupertinoIcons.camera,size: 40,)),
-              IconButton(onPressed: (){}, icon: Icon(Icons.settings,size: 40,))
+              Icon(
+                Icons.qr_code_scanner_outlined,
+                size: 40,
+              ),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    CupertinoIcons.camera,
+                    size: 40,
+                  )),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.settings,
+                    size: 40,
+                  ))
             ],
           ),
           color: Colors.greenAccent,
@@ -87,44 +136,20 @@ class _WhatsappState extends State<Whatsapp> with SingleTickerProviderStateMixin
           right: 20.0,
           child: AppBar(
               backgroundColor: Colors.white,
-              // leading: Icon(
-              //   Icons.menu,
-              //   color: Theme.of(context).primaryColor,
-              // ),
-              // primary: false,
-              // title: TextField(
-              //   decoration: InputDecoration(
-              //     hintText: "Search",
-              //     border: InputBorder.none,
-              //     hintStyle: TextStyle(color: Colors.grey),
-              //   ),
-              // ),
-              // actions: <Widget> [
-              //   IconButton(
-              //     icon: Icon(
-              //       Icons.search,
-              //       color: Theme.of(context).primaryColorDark,
-              //     ),
-              //     onPressed: () {},
-              //   ),
-              //   IconButton(
-              //     icon: Icon(
-              //       Icons.notifications,
-              //       color: Theme.of(context).primaryColor,
-              //     ),
-              //     onPressed: () {},
-              //   ),
-              // ],
               bottom: TabBar(
                 controller: _tabController,
                 tabs: [
-                  Tab(text:"chats",),
-                  Tab(text:"chats",),
-                  Tab(text:"chats",)
-
+                  Tab(
+                    text: "call",
+                  ),
+                  Tab(
+                    text: "chats",
+                  ),
+                  Tab(
+                    icon: Icon(Icons.call),
+                  )
                 ],
-              )
-          ),
+              )),
         ),
       ],
     );
